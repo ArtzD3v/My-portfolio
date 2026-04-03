@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Portfólio profissional de Arthur Castro — Desenvolvedor criativo com foco em experiências digitais de alto impacto.">
+    <title>Arthur Castro | Desenvolvedor</title>
+
+    <!-- Tailwind CSS v3 CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Noto Serif JP', 'serif'],
+                    },
+                    colors: {
+                        kure: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#E63946',
+                            500: '#C41E3A',
+                            600: '#A0001C',
+                            700: '#8B0000',
+                            800: '#5C0011',
+                            900: '#1A0004',
+                            950: '#0C0404',
+                        },
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(40px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                },
+            },
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-kure-950 text-white font-sans antialiased overflow-x-hidden">
+
+    <!-- Falling Petals Canvas -->
+    <canvas id="petals-canvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Global Fixed Katana Background for Scrollytelling -->
+    <!-- ============================================= -->
+    <!-- SAKURA BRANCH — Top Left Corner              -->
+    <!-- ============================================= -->
+    <div class="sakura-branch sakura-top-left">
+        <img src="assets/img/sakura-top-left.png" alt="Sakura Decor"
+            class="w-72 md:w-96 mix-blend-screen contrast-150 drop-shadow-2xl"
+            style="-webkit-mask-image: radial-gradient(circle at 10% 10%, black 50%, transparent 100%); mask-image: radial-gradient(circle at 10% 10%, black 50%, transparent 100%);">
+    </div>
+
+    <!-- ============================================= -->
+    <!-- SAKURA BRANCH — Bottom Right Corner           -->
+    <!-- ============================================= -->
+    <div class="sakura-branch sakura-bottom-right">
+        <img src="assets/img/sakura-bottom-right.png" alt="Sakura Decor"
+            class="w-72 md:w-96 mix-blend-screen contrast-150 drop-shadow-2xl"
+            style="-webkit-mask-image: radial-gradient(circle at 90% 90%, black 50%, transparent 100%); mask-image: radial-gradient(circle at 90% 90%, black 50%, transparent 100%);">
+    </div>
+
+    <!-- ============================================= -->
+    <!-- NAVBAR                                        -->
+    <!-- ============================================= -->
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#hero" class="font-display font-bold text-2xl tracking-tight group">
+                    <span class="text-white group-hover:text-kure-400 transition-colors">&lt;</span>
+                    <span
+                        class="bg-gradient-to-r from-kure-700 via-kure-500 to-kure-400 bg-clip-text text-transparent">Dev</span>
+                    <span class="text-white group-hover:text-kure-400 transition-colors">/&gt;</span>
+                </a>
+
+                <!-- Desktop Links -->
+                <ul class="hidden md:flex items-center gap-1">
+                    <li><a href="#hero" class="nav-link active" data-section="hero">Início</a></li>
+                    <li><a href="#about" class="nav-link" data-section="about">Sobre</a></li>
+                    <li><a href="#skills" class="nav-link" data-section="skills">Skills</a></li>
+                    <li><a href="#projects" class="nav-link" data-section="projects">Projetos</a></li>
+                    <li><a href="#experience" class="nav-link" data-section="experience">Experiência</a></li>
+                    <li><a href="#contact" class="nav-link" data-section="contact">Contato</a></li>
+                </ul>
+
+                <!-- CTA + Mobile Toggle -->
+                <div class="flex items-center gap-4">
+                    <a href="#contact"
+                        class="hidden md:inline-flex items-center gap-2 px-5 py-2.5 bg-kure-500 hover:bg-kure-400 text-white text-sm font-medium rounded-full transition-all hover:shadow-lg hover:shadow-kure-500/25">
+                        Fale Comigo
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <button id="mobile-toggle" class="md:hidden relative w-10 h-10 flex items-center justify-center"
+                        aria-label="Menu">
+                        <span class="hamburger-line top-line"></span>
+                        <span class="hamburger-line middle-line"></span>
+                        <span class="hamburger-line bottom-line"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+            <div class="px-6 pb-6 pt-2 space-y-1 bg-kure-950/95 backdrop-blur-xl border-t border-white/5">
+                <a href="#hero" class="mobile-link" data-section="hero">Início</a>
+                <a href="#about" class="mobile-link" data-section="about">Sobre</a>
+                <a href="#skills" class="mobile-link" data-section="skills">Skills</a>
+                <a href="#projects" class="mobile-link" data-section="projects">Projetos</a>
+                <a href="#experience" class="mobile-link" data-section="experience">Experiência</a>
+                <a href="#contact" class="mobile-link" data-section="contact">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================= -->
+    <!-- HERO SECTION                                  -->
+    <!-- ============================================= -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center">
+        <!-- Background Effects -->
+        <div class="absolute inset-0 pointer-events-none">
+            <!-- Red glow blobs -->
+            <div class="red-glow absolute top-1/4 -left-48 w-[450px] h-[450px] bg-kure-700/20"
+                style="animation: sway-branch 14s ease-in-out infinite;"></div>
+            <div class="red-glow absolute bottom-1/3 -right-48 w-[400px] h-[400px] bg-kure-500/10"
+                style="animation: sway-branch 18s ease-in-out infinite reverse;"></div>
+
+            <!-- Hero Katana (Realistic Crossed Katanas) -->
+            <div class="hero-katana mix-blend-screen">
+                <img src="assets/img/katana-realistic.png" alt="" class="katana-1 absolute w-full max-w-[800px] -rotate-[25deg] drop-shadow-[0_0_40px_rgba(196,30,58,0.6)] object-contain">
+                <img src="assets/img/katana-realistic.png" alt="" class="katana-2 absolute w-full max-w-[800px] rotate-[25deg] -scale-x-100 drop-shadow-[0_0_40px_rgba(196,30,58,0.6)] object-contain">
+            </div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 text-center">
+            <!-- Badge -->
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-kure-500/10 border border-kure-500/20 text-kure-300 text-sm font-medium mb-8 animate-fade-in">
+                <span class="w-2 h-2 bg-kure-500 rounded-full animate-pulse"></span>
+                <i data-lucide="swords" class="w-4 h-4"></i>
+                Disponível para projetos
+            </div>
+
+            <!-- Title -->
+            <h1 class="font-display font-black text-5xl sm:text-6xl lg:text-8xl leading-tight tracking-tight mb-6 opacity-0 animate-slide-up"
+                style="animation-delay: 0.2s;">
+                Olá, eu sou<br>
+                <span
+                    class="bg-gradient-to-r p-4 tracking-normal from-kure-700 via-kure-500 to-kure-400 bg-clip-text text-transparent">
+                    Arthur Castro
+                </span>
+            </h1>
+
+            <!-- Subtitle with typing effect -->
+            <p class="text-lg sm:text-xl lg:text-2xl text-white/60 max-w-2xl mx-auto mb-10 opacity-0 animate-slide-up"
+                style="animation-delay: 0.4s;">
+                <span id="typed-role" class="text-white font-medium"></span>
+                <span class="typed-cursor">|</span>
+                <br class="sm:hidden">
+                <span class="block mt-2">Transformando ideias em experiências digitais extraordinárias.</span>
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-slide-up"
+                style="animation-delay: 0.6s;">
+                <a href="#projects"
+                    class="group flex items-center gap-2 px-8 py-4 bg-kure-500 hover:bg-kure-400 text-white font-semibold rounded-full transition-all duration-300 hover:shadow-2xl hover:shadow-kure-500/30 hover:-translate-y-0.5">
+                    Ver Projetos
+                    <i data-lucide="arrow-down" class="w-5 h-5 group-hover:translate-y-1 transition-transform"></i>
+                </a>
+                <a href="assets/curriculo.pdf" download
+                    class="flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-full border border-white/10 hover:border-kure-500/30 transition-all duration-300 backdrop-blur-sm">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    Download CV
+                </a>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex items-center justify-center gap-4 mt-12 opacity-0 animate-slide-up"
+                style="animation-delay: 0.8s;">
+                <a href="https://github.com/ArtzD3v" target="_blank" rel="noopener" class="social-icon"
+                    aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.12-.35 6.4-.81 6.4-7.03A5.42 5.42 0 0 0 19 4.39a5.1 5.1 0 0 0-.1-3.32s-1.15-.37-3.6 1.25a12.8 12.8 0 0 0-6.6 0C6.15 1.07 5 1.44 5 1.44a5.1 5.1 0 0 0-.1 3.32 5.42 5.42 0 0 0-1.42 3.53c0 6.2 3.28 6.67 6.4 7.02a4.8 4.8 0 0 0-1 3.03V22"/><path d="M9 19c-4.2 1.4-5.2-1.4-7-2"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/arthur-miranda-de-castro-5b3696340/" target="_blank" rel="noopener"
+                    class="social-icon" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="mailto:Arthur.Castro.Dev@gmail.com" class="social-icon" aria-label="Email">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="mt-24 flex flex-col items-center gap-2 text-kure-500/50 animate-bounce">
+                <span class="text-xs uppercase tracking-widest">Explorar</span>
+                <i data-lucide="chevron-down" class="w-5 h-5"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- KATANA DIVIDER + SKILLS MARQUEE               -->
+    <!-- ============================================= -->
+    <div class="relative z-10">
+        <!-- Horizontal Katana SVG -->
+        <div class="katana-divider">
+            <svg viewBox="0 0 1200 40" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg"
+                class="w-full h-10">
+                <!-- Blade -->
+                <path d="M0 20 L50 18 Q600 15 1150 18 L1200 14 L1200 16 L1150 20 Q600 23 50 20 Z" fill="#C41E3A"
+                    opacity="0.12" />
+                <!-- Edge highlight -->
+                <path d="M50 18 Q600 15 1150 18" stroke="#C41E3A" stroke-width="0.5" opacity="0.25" />
+                <!-- Tip glow -->
+                <circle cx="1200" cy="15" r="3" fill="#C41E3A" opacity="0.15" />
+                <!-- Tsuba (guard) -->
+                <ellipse cx="50" cy="20" rx="6" ry="10" fill="none" stroke="#C41E3A" stroke-width="1.2"
+                    opacity="0.18" />
+                <!-- Handle -->
+                <rect x="10" y="17" width="38" height="6" rx="3" fill="#C41E3A" opacity="0.08" />
+                <!-- Handle wrapping -->
+                <line x1="18" y1="17" x2="20" y2="23" stroke="#C41E3A" stroke-width="0.6" opacity="0.12" />
+                <line x1="26" y1="17" x2="28" y2="23" stroke="#C41E3A" stroke-width="0.6" opacity="0.12" />
+                <line x1="34" y1="17" x2="36" y2="23" stroke="#C41E3A" stroke-width="0.6" opacity="0.12" />
+            </svg>
+        </div>
+
+        <!-- Skills Marquee -->
+        <div class="marquee-wrapper">
+            <div class="marquee-track">
+                <div class="marquee-content">
+                    <span class="marquee-item">⬥ HTML5</span>
+                    <span class="marquee-item">⬥ CSS3</span>
+                    <span class="marquee-item">⬥ JavaScript</span>
+                    <span class="marquee-item">⬥ TypeScript</span>
+                    <span class="marquee-item">⬥ React</span>
+                    <span class="marquee-item">⬥ Node.js</span>
+                    <span class="marquee-item">⬥ Python</span>
+                    <span class="marquee-item">⬥ Java</span>
+                    <span class="marquee-item">⬥ Spring Boot</span>
+                    <span class="marquee-item">⬥ PostgreSQL</span>
+                    <span class="marquee-item">⬥ MongoDB</span>
+                    <span class="marquee-item">⬥ Docker</span>
+                    <span class="marquee-item">⬥ Git</span>
+                    <span class="marquee-item">⬥ REST APIs</span>
+                    <span class="marquee-item">⬥ Tailwind CSS</span>
+                    <span class="marquee-item">⬥ Express</span>
+                </div>
+                <div class="marquee-content" aria-hidden="true">
+                    <span class="marquee-item">⬥ HTML5</span>
+                    <span class="marquee-item">⬥ CSS3</span>
+                    <span class="marquee-item">⬥ JavaScript</span>
+                    <span class="marquee-item">⬥ TypeScript</span>
+                    <span class="marquee-item">⬥ React</span>
+                    <span class="marquee-item">⬥ Node.js</span>
+                    <span class="marquee-item">⬥ Python</span>
+                    <span class="marquee-item">⬥ Java</span>
+                    <span class="marquee-item">⬥ Spring Boot</span>
+                    <span class="marquee-item">⬥ PostgreSQL</span>
+                    <span class="marquee-item">⬥ MongoDB</span>
+                    <span class="marquee-item">⬥ Docker</span>
+                    <span class="marquee-item">⬥ Git</span>
+                    <span class="marquee-item">⬥ REST APIs</span>
+                    <span class="marquee-item">⬥ Tailwind CSS</span>
+                    <span class="marquee-item">⬥ Express</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- ABOUT SECTION                                 -->
+    <!-- ============================================= -->
+    <section id="about" class="py-24 lg:py-32 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Image Side -->
+                <div class="relative scroll-reveal">
+                    <div class="relative rounded-2xl overflow-hidden aspect-square max-w-md mx-auto lg:mx-0">
+                        <div class="absolute inset-0 bg-gradient-to-br from-kure-500/25 to-kure-700/25 z-10"></div>
+                        <div class="w-full h-full bg-kure-900 flex items-center justify-center">
+                            <i data-lucide="user" class="w-32 h-32 text-white/10"></i>
+                        </div>
+                        <div class="absolute -bottom-6 -right-6 w-32 h-32 grid grid-cols-4 gap-2 z-0">
+                            <span class="w-2 h-2 bg-kure-500/40 rounded-full"></span>
+                            <span class="w-2 h-2 bg-kure-500/30 rounded-full"></span>
+                            <span class="w-2 h-2 bg-kure-500/20 rounded-full"></span>
+                            <span class="w-2 h-2 bg-kure-500/10 rounded-full"></span>
+                            <span class="w-2 h-2 bg-kure-500/30 rounded-full"></span>
+                            <span class="w-2 h-2 bg-kure-500/20 rounded-full"></span>
+                            <span class="w-2 h-2 bg-kure-500/10 rounded-full"></span>
+                            <span class="w-2 h-2 bg-kure-500/5 rounded-full"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="scroll-reveal" style="--delay: 0.2s;">
+                    <span class="section-label">Sobre Mim</span>
+                    <h2 class="section-title">
+                        Combinando <span class="text-gradient">criatividade</span> e tecnologia
+                    </h2>
+                    <p class="text-white/50 text-lg leading-relaxed mb-6">
+                        Sou um desenvolvedor apaixonado por criar soluções digitais que impactam positivamente a vida
+                        das pessoas. Com experiência em desenvolvimento full-stack(especialmente back-end), busco sempre
+                        tentar resolver problemas reais
+                    </p>
+                    <p class="text-white/50 text-lg leading-relaxed mb-8">
+                        Acredito que a tecnologia é uma ferramenta poderosa de transformação, e meu objetivo é
+                        utilizá-la para construir experiências que sejam não apenas funcionais, mas memoráveis.
+                    </p>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="stat-card">
+                            <span class="stat-number" data-count="1">0</span>
+                            <span class="stat-label">Anos de Experiência</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" data-count="0">0</span>
+                            <span class="stat-label">Projetos Concluídos</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-number" data-count="0">0</span>
+                            <span class="stat-label">Clientes Satisfeitos</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- SKILLS SECTION                                -->
+    <!-- ============================================= -->
+    <section id="skills" class="py-24 lg:py-32 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="section-label">Habilidades</span>
+                <h2 class="section-title">
+                    Minhas <span class="text-gradient">Tecnologias</span>
+                </h2>
+                <p class="text-white/50 text-lg max-w-2xl mx-auto">
+                    Ferramentas e tecnologias que utilizo para transformar ideias em realidade.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Skill Category 1 -->
+                <div class="skill-card scroll-reveal" style="--delay: 0s;">
+                    <div class="skill-icon-wrapper bg-kure-500/10 text-kure-400">
+                        <i data-lucide="layout" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold mb-3">Front-End</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Tailwind CSS</span>
+                    </div>
+                </div>
+
+                <!-- Skill Category 2 -->
+                <div class="skill-card scroll-reveal" style="--delay: 0.1s;">
+                    <div class="skill-icon-wrapper bg-kure-700/15 text-kure-300">
+                        <i data-lucide="server" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold mb-3">Back-End</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">Express</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">REST APIs</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Spring Boot</span>
+                    </div>
+                </div>
+
+                <!-- Skill Category 3 -->
+                <div class="skill-card scroll-reveal" style="--delay: 0.2s;">
+                    <div class="skill-icon-wrapper bg-kure-500/12 text-kure-400">
+                        <i data-lucide="wrench" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold mb-3">Ferramentas</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">VS Code</span>
+                        <span class="skill-tag">CI/CD</span>
+                    </div>
+                </div>
+
+                <!-- Skill Category 4 -->
+                <div class="skill-card scroll-reveal" style="--delay: 0.3s;">
+                    <div class="skill-icon-wrapper bg-kure-600/12 text-kure-300">
+                        <i data-lucide="coffee" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-display font-semibold mb-3">Java &amp; Banco de Dados</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Spring Boot</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">JPA / Hibernate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- PROJECTS SECTION                              -->
+    <!-- ============================================= -->
+    <section id="projects" class="py-24 lg:py-32 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="section-label">Portfólio</span>
+                <h2 class="section-title">
+                    Projetos em <span class="text-gradient">Destaque</span>
+                </h2>
+                <p class="text-white/50 text-lg max-w-2xl mx-auto">
+                    Uma seleção dos meus melhores trabalhos, combinando design e funcionalidade.
+                </p>
+            </div>
+
+            <!-- Filter Tags -->
+            <div class="flex flex-wrap items-center justify-center gap-3 mb-12 scroll-reveal">
+                <button class="filter-btn active" data-filter="all">Todos</button>
+                <button class="filter-btn" data-filter="web">Web</button>
+                <button class="filter-btn" data-filter="app">Apps</button>
+                <button class="filter-btn" data-filter="backend">Back-End</button>
+            </div>
+
+            <!-- Projects Grid -->
+            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <article class="project-card scroll-reveal" data-category="web" style="--delay: 0s;">
+                    <div class="project-image">
+                        <div
+                            class="w-full h-full bg-gradient-to-br from-kure-500/30 to-kure-700/30 flex items-center justify-center">
+                            <i data-lucide="globe" class="w-16 h-16 text-white/20"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link" aria-label="Ver projeto">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://github.com/ArtzD3v/NOVA-e-commerce" class="project-link"
+                                aria-label="Ver código">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.12-.35 6.4-.81 6.4-7.03A5.42 5.42 0 0 0 19 4.39a5.1 5.1 0 0 0-.1-3.32s-1.15-.37-3.6 1.25a12.8 12.8 0 0 0-6.6 0C6.15 1.07 5 1.44 5 1.44a5.1 5.1 0 0 0-.1 3.32 5.42 5.42 0 0 0-1.42 3.53c0 6.2 3.28 6.67 6.4 7.02a4.8 4.8 0 0 0-1 3.03V22"/><path d="M9 19c-4.2 1.4-5.2-1.4-7-2"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-semibold text-xl mb-2">E-Commerce Platform</h3>
+                        <p class="text-white/40 text-sm mb-4">Plataforma completa de e-commerce com painel
+                            administrativo e integração de pagamentos.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">React</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">Node.js</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">CSS</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">HTML</span>
+                            <span
+                                class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">JavaScript</span>
+                            <span
+                                class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">TypeScript</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">Tailwind
+                                CSS</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">Express</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="project-card scroll-reveal" data-category="app" style="--delay: 0.1s;">
+                    <div class="project-image">
+                        <div
+                            class="w-full h-full bg-gradient-to-br from-kure-600/25 to-kure-800/25 flex items-center justify-center">
+                            <i data-lucide="smartphone" class="w-16 h-16 text-white/20"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link" aria-label="Ver projeto">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="project-link" aria-label="Ver código">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.12-.35 6.4-.81 6.4-7.03A5.42 5.42 0 0 0 19 4.39a5.1 5.1 0 0 0-.1-3.32s-1.15-.37-3.6 1.25a12.8 12.8 0 0 0-6.6 0C6.15 1.07 5 1.44 5 1.44a5.1 5.1 0 0 0-.1 3.32 5.42 5.42 0 0 0-1.42 3.53c0 6.2 3.28 6.67 6.4 7.02a4.8 4.8 0 0 0-1 3.03V22"/><path d="M9 19c-4.2 1.4-5.2-1.4-7-2"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-semibold text-xl mb-2">Task Management App</h3>
+                        <p class="text-white/40 text-sm mb-4">Aplicativo de gestão de tarefas com colaboração em
+                            tempo real e notificações push.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">React
+                                Native</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">Firebase</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="project-card scroll-reveal" data-category="backend" style="--delay: 0.2s;">
+                    <div class="project-image">
+                        <div
+                            class="w-full h-full bg-gradient-to-br from-kure-700/25 to-kure-500/15 flex items-center justify-center">
+                            <i data-lucide="server" class="w-16 h-16 text-white/20"></i>
+                        </div>
+                        <div class="project-overlay">
+                            <a href="#" class="project-link" aria-label="Ver projeto">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="project-link" aria-label="Ver código">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.12-.35 6.4-.81 6.4-7.03A5.42 5.42 0 0 0 19 4.39a5.1 5.1 0 0 0-.1-3.32s-1.15-.37-3.6 1.25a12.8 12.8 0 0 0-6.6 0C6.15 1.07 5 1.44 5 1.44a5.1 5.1 0 0 0-.1 3.32 5.42 5.42 0 0 0-1.42 3.53c0 6.2 3.28 6.67 6.4 7.02a4.8 4.8 0 0 0-1 3.03V22"/><path d="M9 19c-4.2 1.4-5.2-1.4-7-2"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-semibold text-xl mb-2">Payment Microservices</h3>
+                        <p class="text-white/40 text-sm mb-4">Arquitetura de microsserviços distribuídos para
+                            processamento de transações em tempo real, com alta simultaneidade e tolerância a falhas.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">Java</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">Spring
+                                Boot</span>
+                            <span class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">Kafka</span>
+                            <span
+                                class="text-xs px-2.5 py-1 bg-kure-500/10 text-kure-300 rounded-full">PostgreSQL</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- SKILLS MARQUEE (reverse direction)            -->
+    <!-- ============================================= -->
+    <div class="relative z-10">
+        <div class="marquee-wrapper">
+            <div class="marquee-track marquee-reverse">
+                <div class="marquee-content">
+                    <span class="marquee-item">⬥ JPA / Hibernate</span>
+                    <span class="marquee-item">⬥ SQL</span>
+                    <span class="marquee-item">⬥ MySQL</span>
+                    <span class="marquee-item">⬥ Firebase</span>
+                    <span class="marquee-item">⬥ Kafka</span>
+                    <span class="marquee-item">⬥ CI/CD</span>
+                    <span class="marquee-item">⬥ Figma</span>
+                    <span class="marquee-item">⬥ VS Code</span>
+                    <span class="marquee-item">⬥ React Native</span>
+                    <span class="marquee-item">⬥ Express</span>
+                    <span class="marquee-item">⬥ REST APIs</span>
+                    <span class="marquee-item">⬥ Java</span>
+                    <span class="marquee-item">⬥ Spring Boot</span>
+                    <span class="marquee-item">⬥ Python</span>
+                </div>
+                <div class="marquee-content" aria-hidden="true">
+                    <span class="marquee-item">⬥ JPA / Hibernate</span>
+                    <span class="marquee-item">⬥ SQL</span>
+                    <span class="marquee-item">⬥ MySQL</span>
+                    <span class="marquee-item">⬥ Firebase</span>
+                    <span class="marquee-item">⬥ Kafka</span>
+                    <span class="marquee-item">⬥ CI/CD</span>
+                    <span class="marquee-item">⬥ Figma</span>
+                    <span class="marquee-item">⬥ VS Code</span>
+                    <span class="marquee-item">⬥ React Native</span>
+                    <span class="marquee-item">⬥ Express</span>
+                    <span class="marquee-item">⬥ REST APIs</span>
+                    <span class="marquee-item">⬥ Java</span>
+                    <span class="marquee-item">⬥ Spring Boot</span>
+                    <span class="marquee-item">⬥ Python</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================= -->
+    <!-- EXPERIENCE / TIMELINE SECTION                 -->
+    <!-- ============================================= -->
+    <section id="experience" class="py-24 lg:py-32 relative z-10">
+        <div class="max-w-4xl mx-auto px-6 lg:px-8">
+            <div class="text-center mb-16 scroll-reveal">
+                <span class="section-label">Trajetória</span>
+                <h2 class="section-title">
+                    Minha <span class="text-gradient">Experiência</span>
+                </h2>
+            </div>
+
+            <div class="timeline">
+                <!-- Timeline Item 1 -->
+                <div class="timeline-item scroll-reveal" style="--delay: 0s;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="text-kure-400 text-sm font-medium">2021 — 2022</span>
+                        <h3 class="font-display font-semibold text-xl mt-1">Início da Formação Técnica em ADS</h3>
+                        <p class="text-white/40 text-sm mt-1 mb-3">Curso Técnico</p>
+                        <p class="text-white/50 text-sm leading-relaxed">
+                            Primeiros passos na área de tecnologia, iniciando a formação técnica em Análise e
+                            Desenvolvimento de Sistemas. Aprendizado de lógica de programação, HTML, CSS e JavaScript.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 2 -->
+                <div class="timeline-item scroll-reveal" style="--delay: 0.15s;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="text-kure-400 text-sm font-medium">2022 — 2025</span>
+                        <h3 class="font-display font-semibold text-xl mt-1">Conclusão do Técnico em ADS</h3>
+                        <p class="text-white/40 text-sm mt-1 mb-3">Curso Técnico</p>
+                        <p class="text-white/50 text-sm leading-relaxed">
+                            Conclusão da formação técnica em Análise e Desenvolvimento de Sistemas, com foco em lógica
+                            de programação, banco de dados, desenvolvimento web e fundamentos de engenharia de software.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Timeline Item 3 -->
+                <div class="timeline-item scroll-reveal" style="--delay: 0.3s;">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="text-kure-400 text-sm font-medium">2026 — Presente</span>
+                        <h3 class="font-display font-semibold text-xl mt-1">Operador de Computador &amp; Graduação em
+                            ADS</h3>
+                        <p class="text-white/40 text-sm mt-1 mb-3">Atuação profissional + Faculdade</p>
+                        <p class="text-white/50 text-sm leading-relaxed">
+                            Trabalhando como operador de computador enquanto cursa a graduação em Análise e
+                            Desenvolvimento de Sistemas, aprofundando conhecimentos em desenvolvimento back-end e boas
+                            práticas de engenharia de software.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- CONTACT SECTION                               -->
+    <!-- ============================================= -->
+    <section id="contact" class="py-24 lg:py-32 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Left Column -->
+                <div class="scroll-reveal">
+                    <span class="section-label">Contato</span>
+                    <h2 class="section-title">
+                        Vamos trabalhar <span class="text-gradient">juntos?</span>
+                    </h2>
+                    <p class="text-white/50 text-lg leading-relaxed mb-10">
+                        Tem um projeto em mente ou quer bater um papo? Ficarei feliz em conversar sobre como posso
+                        ajudar.
+                    </p>
+
+                    <!-- Contact Info -->
+                    <div class="space-y-6">
+                        <a href="mailto:Arthur.Castro.Dev@gmail.com" class="contact-info-item">
+                            <div class="contact-info-icon bg-kure-500/10 text-kure-400">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-white/35">Email</p>
+                                <p class="text-white font-medium">Arthur.Castro.Dev@gmail.com</p>
+                            </div>
+                        </a>
+                        <a href="tel:+5581997209961" class="contact-info-item">
+                            <div class="contact-info-icon bg-kure-700/12 text-kure-300">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-white/35">Telefone</p>
+                                <p class="text-white font-medium">+55 (81) 99720-9961</p>
+                            </div>
+                        </a>
+                        <div class="contact-info-item">
+                            <div class="contact-info-icon bg-kure-500/12 text-kure-400">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm text-white/35">Localização</p>
+                                <p class="text-white font-medium">Recife, Pernambuco</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column — Form -->
+                <div class="scroll-reveal" style="--delay: 0.2s;">
+                    <form id="contact-form" action="https://formsubmit.co/Arthur.Castro.Dev@gmail.com" method="POST"
+                        class="space-y-6">
+                        <!-- FormSubmit config -->
+                        <input type="hidden" name="_subject" value="Nova mensagem do Portfólio!">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_template" value="table">
+                        <input type="text" name="_honey" style="display:none">
+
+                        <div class="grid sm:grid-cols-2 gap-6">
+                            <div class="form-group">
+                                <label for="name" class="form-label">Nome</label>
+                                <input type="text" id="name" name="name" required placeholder="Seu nome"
+                                    class="form-input">
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" id="email" name="email" required placeholder="seu@email.com"
+                                    class="form-input">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Assunto</label>
+                            <input type="text" id="subject" name="subject" required
+                                placeholder="Sobre o que deseja falar?" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="message" class="form-label">Mensagem</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Sua mensagem..."
+                                class="form-input resize-none"></textarea>
+                        </div>
+                        <button type="submit" id="submit-btn"
+                            class="w-full flex items-center justify-center gap-2 px-8 py-4 bg-kure-500 hover:bg-kure-400 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-kure-500/25">
+                            <span>Enviar Mensagem</span>
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- FOOTER                                        -->
+    <!-- ============================================= -->
+    <footer class="py-8 border-t border-kure-500/10 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-white/35 text-sm">
+                    &copy; <span id="current-year"></span> Arthur Castro. Todos os direitos reservados.
+                </p>
+                <div class="flex items-center gap-4">
+                    <a href="https://github.com/ArtzD3v" target="_blank" rel="noopener"
+                        class="text-white/35 hover:text-kure-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.02c3.12-.35 6.4-.81 6.4-7.03A5.42 5.42 0 0 0 19 4.39a5.1 5.1 0 0 0-.1-3.32s-1.15-.37-3.6 1.25a12.8 12.8 0 0 0-6.6 0C6.15 1.07 5 1.44 5 1.44a5.1 5.1 0 0 0-.1 3.32 5.42 5.42 0 0 0-1.42 3.53c0 6.2 3.28 6.67 6.4 7.02a4.8 4.8 0 0 0-1 3.03V22"/><path d="M9 19c-4.2 1.4-5.2-1.4-7-2"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/arthur-miranda-de-castro-5b3696340/" target="_blank"
+                        rel="noopener" class="text-white/35 hover:text-kure-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="mailto:Arthur.Castro.Dev@gmail.com"
+                        class="text-white/35 hover:text-kure-400 transition-colors">
+                        <i data-lucide="mail" class="w-5 h-5"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="back-to-top"
+        class="fixed bottom-8 right-8 w-12 h-12 bg-kure-500 hover:bg-kure-400 text-white rounded-full shadow-lg shadow-kure-500/25 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 z-50"
+        aria-label="Voltar ao topo">
+        <i data-lucide="chevron-up" class="w-5 h-5"></i>
+    </button>
+
+    <!-- GSAP & ScrollTrigger -->
+    
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>
