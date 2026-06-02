@@ -8,7 +8,7 @@ This portfolio showcases my professional journey, technical skills, and selected
 
 ## Tech Stack
 
-- **Languages:** Python 3.12+ (AsyncIO), Java 21 (Project Loom)
+- **Languages:** Python 3.12+ (AsyncIO), Java 21
 - **Frameworks:** FastAPI, Pydantic V2, Spring Boot 3.2
 - **Infrastructure:** AWS (Lambda, S3, RDS), Docker, Kubernetes, Terraform (IaC)
 - **Databases:** PostgreSQL (TimescaleDB), Redis (Pub/Sub & Cache)
